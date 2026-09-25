@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3f6fb" />
+    <meta name="description" content="Create and download a custom QR code for any URL or text." />
+    <title>QR Code Studio</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23345cf4'/%3E%3Cg fill='white'%3E%3Cpath d='M11 11h18v18H11zm5 5v8h8v-8zM35 11h18v18H35zm5 5v8h8v-8zM11 35h18v18H11zm5 5v8h8v-8z' fill-rule='evenodd'/%3E%3Cpath d='M35 35h6v6h-6zm12 0h6v6h-6zm-6 6h6v6h-6zm6 6h6v6h-6zm-12 0h6v6h-6z'/%3E%3C/g%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="qrcode.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <div class="brand" aria-label="QR Code Studio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" focusable="false"><path d="M2 2h11v11H2V2Zm3 3v5h5V5H5Zm14-3h11v11H19V2Zm3 3v5h5V5h-5ZM2 19h11v11H2V19Zm3 3v5h5v-5H5Zm14-3h4v4h-4v-4Zm7 0h4v4h-4v-4Zm-3 4h4v4h-4v-4Zm-4 4h4v3h-4v-3Zm8 0h3v3h-3v-3Z" fill-rule="evenodd" /></svg>
+          </span>
+          <span>QR Code Studio</span>
+        </div>
+        <h1>Make a QR code</h1>
+        <p class="intro">Enter a link or message. Your preview updates as you type.</p>
+      </header>
+
+      <div class="workspace">
+        <section class="panel input-panel" aria-labelledby="content-heading">
+          <div class="panel-heading">
+            <span class="step" aria-hidden="true">01</span>
+            <h2 id="content-heading">Content</h2>
+          </div>
+          <label for="content">URL or text</label>
+          <textarea id="content" rows="5" maxlength="2953" spellcheck="false" placeholder="https://example.com">https://example.com</textarea>
+          <p class="field-note">Whatever you enter is encoded into the QR code.</p>
+        </section>
+
+        <section class="panel options-panel" aria-labelledby="options-heading">
+          <div class="panel-heading">
+            <span class="step" aria-hidden="true">02</span>
+            <h2 id="options-heading">Appearance</h2>
+          </div>
+
+          <div class="color-grid">
+            <div class="field color-field">
+              <label for="foreground">Foreground</label>
+              <div class="color-control">
+                <input id="foreground" type="color" value="#17233b" />
+                <output id="foreground-value" for="foreground">#17233B</output>
+              </div>
+            </div>
+            <div class="field color-field">
+              <label for="background">Background</label>
+              <div class="color-control">
+                <input id="background" type="color" value="#ffffff" />
+                <output id="background-value" for="background">#FFFFFF</output>
+              </div>
+            </div>
+          </div>
+
+          <div class="field size-field">
+            <div class="label-line">
+              <label for="size">PNG size</label>
+              <output id="size-value" for="size">320 px</output>
+            </div>
+            <input id="size" type="range" min="256" max="1024" step="16" value="320" />
+            <div class="range-labels" aria-hidden="true"><span>256 px</span><span>1024 px</span></div>
+          </div>
+
+          <div class="field">
+            <label for="error-correction">Error correction</label>
+            <select id="error-correction">
+              <option value="L">Low · 7%</option>
+              <option value="M" selected>Medium · 15%</option>
+              <option value="Q">Quartile · 25%</option>
+              <option value="H">High · 30%</option>
+            </select>
+            <p class="field-note">Higher levels recover from more damage, but create denser codes.</p>
+          </div>
+        </section>
+
+        <section class="panel preview-panel" aria-labelledby="preview-heading">
+          <div class="panel-heading preview-heading">
+            <h2 id="preview-heading">Preview</h2>
+            <span class="live-tag">Live</span>
+          </div>
+          <div class="preview-stage" id="preview-stage">
+            <canvas id="qr-canvas" width="320" height="320" role="img" aria-label="QR code preview for https://example.com"></canvas>
+            <p id="empty-state" class="empty-state" hidden>Enter a URL or text to see your QR code.</p>
+          </div>
+          <p id="status" class="status" role="status" aria-live="polite">Ready to download</p>
+          <button id="download" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            Download PNG
+          </button>
+          <p class="preview-note">For reliable scanning, keep the foreground darker than the background.</p>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
